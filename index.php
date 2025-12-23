@@ -7,8 +7,6 @@ if(!isset($_SESSION['login'])){
     header("Location: login.php");
 }
 
-
-
 ?>
 <!doctype html>
 <html lang="en">

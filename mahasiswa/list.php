@@ -1,7 +1,7 @@
 <h1 class="text-center">List Data Mahasiswa</h1>
 
-<table class="table table-bordered text-center border-dark">
-    <thead class="table-secondary">
+<table class="table table-bordered text-center">
+    <thead class="table-info">
         <tr>
             <th scope="col">NIM</th>
             <th scope="col">Nama Mahasiswa</th>
@@ -45,4 +45,4 @@
     </tbody>
 </table>
 
-<a href="index.php?page=mahasiswa_create" class="btn btn-primary">Input Data Mahasiswa</a>
+<a href="index.php?page=mahasiswa_create" class="btn btn-primary">+ Input Data Mahasiswa</a>
