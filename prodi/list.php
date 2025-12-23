@@ -1,41 +1,49 @@
-    <h1 class='text-center'>List Program Studi Mahasiswa</h1>
-    <a href='index.php?page=prodi_create' class="btn btn-primary">+ tambah data</a>
-    <br><br>
-    <table class="table table-bordered">
-            <thead>
+<h1 class="text-center">List Data Prodi</h1>
+
+<table class="table table-bordered text-center border-dark">
+    <thead class="table-secondary">
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama Prodi</th>
+            <th scope="col">Jenjang</th>
+            <th scope="col">Keterangan</th>
+            <th scope="col">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        require 'koneksi.php';
+        $no = 1;
+        $tampil = $koneksi->query(
+            "SELECT * FROM prodi"
+        );
+
+        while ($data = $tampil->fetch_assoc()) {
+        ?>
             <tr>
-                <th scope="col">No</th>
-                <th scope="col">Program Studi</th>
-                <th scope="col">Jenjang</th>
-                <th scope="col">Keterangan</th>
-                <th scope="col">Aksi</th>
+                <th scope="row"><?= $no++ ?></th>
+                <td><?= $data['nama_prodi'] ?></td>
+                <td><?= $data['jenjang'] ?></td>
+                <td><?= $data['keterangan'] ?></td>
+                <td>
+                    <a href="index.php?page=prodi_update&id=<?= $data['id']; ?>" 
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="proses.php?prodi_delete=<?= $data['id']; ?>" 
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Yakin ingin menghapus data ini?');">
+                        Hapus
+                    </a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php
-                require 'koneksi.php';
-                $tampil = $koneksi->query("SELECT * FROM prodi");
-                $no=1;
-                //looping data mahasiswa
-                //-> merupakan tanda object
-                while($data = $tampil->fetch_assoc()){
-            ?>  
-                    <tr>
-                        <th scope="row"><?= $no ?></th>
-                        <td><?= $data['nama_prodi'] ?></td>
-                        <td><?= $data['jenjang'] ?></td>
-                        <td><?= $data['keterangan'] ?></td>
-                        <td>
-                            <a href="proses.php?prodi_hapus=<?php echo $data['id'] ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?');">Hapus</a>
-                            <a href="index.php?id=<?= $data['id'] ?>&page=prodi_update" class="btn btn-warning">Edit</a>
-                        </td>
-                    </tr>
-            
-            <?php     
-                $no++;
-            } 
-            ?>
-            
-        </tbody>
-    </table>
-    
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
+
+<a href="index.php?page=prodi_create" class="btn btn-primary">
+    Input Data Prodi
+</a>

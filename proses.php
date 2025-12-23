@@ -1,119 +1,133 @@
-<?php 
-    //include : jika kode eror kode selanjutnya tetap dijalankan
-    //require : jika kode eror kode selanjutnya tidak dijalankan
+<?php
+// Include file koneksi
+require 'koneksi.php';
 
-    require 'koneksi.php';
+/* =======================
+   INSERT DATA
+   ======================= */
+if (isset($_POST['mhs_submit'])) {
+    $nim        = $_POST['nim'];
+    $nama_mhs   = $_POST['nama_mhs'];
+    $tgl_lahir  = $_POST['tgl_lahir'];
+    $alamat     = $_POST['alamat'];
+    $prodi_id = $_POST['prodi_id'];
 
-    //==INSERT MAHASISWA==
-    if (isset($_POST['mhs_submit']))
-    {
-        $nim = $_POST['nim'];
-        $nama_mhs = $_POST['nama_mhs'];
-        $tgl_lahir = $_POST['tgl_lahir'];
-        $alamat = $_POST['alamat'];
-        $prodi_id = $_POST['prodi_id'];
+    $query = "INSERT INTO mahasiswa 
+          (nim, nama_mhs, tgl_lahir, prodi_id, alamat)
+          VALUES ('$nim', '$nama_mhs', '$tgl_lahir', '$prodi_id', '$alamat')";
+    $sql = $koneksi->query($query);
 
-        $query = "INSERT INTO mahasiswa(nim, nama_mhs, tgl_lahir, alamat, prodi_id)
-                VALUES('$nim','$nama_mhs','$tgl_lahir','$alamat','$prodi_id')";
-        $sql = $koneksi->query($query); //eksekusi query
-
-        if($sql){
-           header ("Location:index.php?page=mahasiswa");
-            exit; 
-        }
-        else{
-            echo "Gagal menyimpan data!";
-        }
+    if ($sql) {
+        header("Location: index.php?page=datamhs");
+        exit();
+    } else {
+        echo "Gagal menyimpan data mahasiswa!";
     }
+}
 
-    //==DELETE MAHASISWA==
-    elseif (isset($_GET['mhs_hapus']))
-    {
-        $nim = $_GET['mhs_hapus'];
+/* =======================
+   UPDATE DATA
+   ======================= */
+elseif (isset($_POST['mhs_update'])) {
+    $nim        = $_POST['nim']; // PRIMARY KEY
+    $nama_mhs   = $_POST['nama_mhs'];
+    $tgl_lahir  = $_POST['tgl_lahir'];
+    $alamat     = $_POST['alamat'];
+    $prodi_id = $_POST['prodi_id'];
 
-        $query = "DELETE FROM mahasiswa WHERE nim ='$nim'";
-        $delete = $koneksi->query($query);
+    $query = "UPDATE mahasiswa 
+              SET nama_mhs='$nama_mhs',
+                  tgl_lahir='$tgl_lahir',
+                  prodi_id= '$prodi_id',
+                  alamat='$alamat'
+              WHERE nim='$nim'";
 
-        if ($delete) {
-            header ("Location:index.php?page=mahasiswa");
-            exit;
-        } else {
-            echo "Gagal menghapus data";
-        }
+    $sql = $koneksi->query($query);
+
+    if ($sql) {
+        header("Location: index.php?page=datamhs");
+        exit();
+    } else {
+        echo "Gagal mengupdate data mahasiswa!";
     }
-    
-    //==UPDATE MAHASISWA==
-    elseif (isset($_POST['mhs_ubah'])) 
-    {
-        $nim = $_POST['nim'];
-        $nama_mhs = $_POST['nama_mhs'];
-        $tgl_lahir = $_POST['tgl_lahir'];
-        $alamat = $_POST['alamat'];
-        $prodi_id = $_POST['prodi_id'];
+}
 
-        $query = "UPDATE mahasiswa SET nama_mhs='$nama_mhs', tgl_lahir='$tgl_lahir', prodi_id='$prodi_id', alamat='$alamat' WHERE nim='$nim'";
-        $update = $koneksi->query($query);
+/* =======================
+   DELETE DATA
+   ======================= */
+elseif (isset($_GET['mhs_delete'])) {
+    $nim = $_GET['mhs_delete'];
 
-        if ($update) {
-            header("Location:index.php?page=mahasiswa");
-            exit;
-        } else {
-            echo "Maaf, data gagal diubah!";
-        }
+    $query = "DELETE FROM mahasiswa WHERE nim='$nim'";
+    $sql = $koneksi->query($query);
+
+    if ($sql) {
+        header("Location: index.php?page=datamhs");
+        exit();
+    } else {
+        echo "Gagal menghapus data mahasiswa!";
     }
+}
 
-    //==INSERT PRODI==
-    elseif (isset($_POST['prodi_submit']))
-    {
-        $nama_prodi = $_POST['nama_prodi'];
-        $jenjang = $_POST['jenjang'];
-        $keterangan = $_POST['keterangan'];
+/* =======================
+   INSERT DATA PRODI
+   ======================= */
+elseif (isset($_POST['prodi_submit'])) {
+    $nama_prodi = $_POST['nama_prodi'];
+    $jenjang    = $_POST['jenjang'];
+    $keterangan = $_POST['keterangan'];
 
-        $query = "INSERT INTO prodi(nama_prodi, jenjang, keterangan)
-                VALUES('$nama_prodi','$jenjang','$keterangan')";
-        $sql = $koneksi->query($query); //eksekusi query
+    $query = "INSERT INTO prodi (nama_prodi, jenjang, keterangan)
+              VALUES ('$nama_prodi', '$jenjang', '$keterangan')";
 
-        if($sql){
-           header ("Location:index.php?page=prodi");
-            exit; 
-        }
-        else{
-            echo "Gagal menyimpan data!";
-        }
+    $sql = $koneksi->query($query);
+
+    if ($sql) {
+        header("Location: index.php?page=prodi");
+        exit();
+    } else {
+        echo "Gagal menyimpan data prodi!";
     }
+}
 
-    //==DELETE PRODI==
-    elseif (isset($_GET['prodi_hapus']))
-    {
-        $id = $_GET['prodi_hapus'];
+/* =======================
+   UPDATE DATA PRODI
+   ======================= */
+elseif (isset($_POST['prodi_update'])) {
+    $id         = $_POST['id']; // PRIMARY KEY
+    $nama_prodi = $_POST['nama_prodi'];
+    $jenjang    = $_POST['jenjang'];
+    $keterangan = $_POST['keterangan'];
 
-        $query = "DELETE FROM prodi WHERE id ='$id'";
-        $delete = $koneksi->query($query);
+    $query = "UPDATE prodi 
+              SET nama_prodi='$nama_prodi',
+                  jenjang='$jenjang',
+                  keterangan='$keterangan'
+              WHERE id='$id'";
 
-        if ($delete) {
-            header ("Location:index.php?page=prodi");
-            exit;
-        } else {
-            echo "Gagal menghapus data";
-        }
+    $sql = $koneksi->query($query);
+
+    if ($sql) {
+        header("Location: index.php?page=prodi");
+        exit();
+    } else {
+        echo "Gagal mengupdate data prodi!";
     }
-    
-    //==UPDATE PRODI==
-    elseif (isset($_POST['prodi_ubah'])) 
-    {
-        $id = $_POST['id'];
-        $nama_prodi = $_POST['nama_prodi'];
-        $jenjang = $_POST['jenjang'];
-        $keterangan = $_POST['keterangan'];
+}
 
-        $query = "UPDATE prodi SET nama_prodi='$nama_prodi', jenjang='$jenjang', keterangan='$keterangan' WHERE id='$id'";
-        $update = $koneksi->query($query);
+/* =======================
+   DELETE DATA PRODI
+   ======================= */
+elseif (isset($_GET['prodi_delete'])) {
+    $id = $_GET['prodi_delete'];
 
-        if ($update) {
-            header("Location:index.php?page=prodi");
-            exit;
-        } else {
-            echo "Maaf, data gagal diubah!";
-        }
+    $query = "DELETE FROM prodi WHERE id='$id'";
+    $sql = $koneksi->query($query);
+
+    if ($sql) {
+        header("Location: index.php?page=prodi");
+        exit();
+    } else {
+        echo "Gagal menghapus data prodi!";
     }
-?>
+}
