@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -39,7 +42,6 @@
 
             if($result->num_rows > 0){
                 //echo "login berhasil";
-                session_start();
                 $_SESSION['login'] = TRUE;
                 $_SESSION['email'] = $email;
                 header("Location: index.php");
